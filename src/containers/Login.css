@@ -7,4 +7,11 @@
       margin: 0 auto;
       max-width: 320px;
     }
+    
+    .loginMessage {
+      margin: 0 auto;
+      max-width: 320px;
+      width: 260px;
+      padding: 20px 0;
+    }
   }
