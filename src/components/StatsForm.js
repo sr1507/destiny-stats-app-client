@@ -3,10 +3,12 @@ import { API } from "aws-amplify";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "./LoaderButton";
 import StatsTable from "./StatsTable";
+import CharacterCard from "./CharacterCard"
 import { useFormFields } from "../libs/hooksLib";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./StatsForm.css";
+
 
 export default function StatsForm({ isLoading, onSubmit, ...props }) {
   const [fields, handleFieldChange] = useFormFields({ name: "" });
@@ -29,8 +31,6 @@ export default function StatsForm({ isLoading, onSubmit, ...props }) {
 
     setIsProcessing(true);
 
-    console.log(startDate);
-
     const searchParams = {
       // OPTIONAL
       queryStringParameters: {
@@ -42,9 +42,6 @@ export default function StatsForm({ isLoading, onSubmit, ...props }) {
 
     await API.get("stats", "/search", searchParams)
       .then((searchResponse) => {
-        console.log(searchResponse);
-        console.log("startDate=" + startDate);
-
         const statsParams = {
           // OPTIONAL
           queryStringParameters: {
@@ -54,25 +51,15 @@ export default function StatsForm({ isLoading, onSubmit, ...props }) {
             startDate: startDate.toISOString(),
           },
         };
-        console.log(statsParams);
         API.get("stats", "/get", statsParams)
           .then((response) => {
-            console.log("THEN");
             setStatistics(response);
-            console.log("THEN 2");
-            
           })
           .catch((e) => {
-            console.log("ERROR");
             console.error(e.message);
-            console.log("ERROR 2");
             setStatistics("");
           })
           .then(() => {
-
-            console.log("FINALLY");
-            
-
             setIsProcessing(false);
             isLoading = false;
           });
@@ -81,8 +68,6 @@ export default function StatsForm({ isLoading, onSubmit, ...props }) {
         setIsProcessing(false);
         isLoading = false;
       });
-
-      
     }
 
   return (
@@ -102,6 +87,7 @@ export default function StatsForm({ isLoading, onSubmit, ...props }) {
       {statistics && statistics.characters.map(character => (
         <div>
           {character.destinyClass}
+          {<CharacterCard input={character}/>}
           {<StatsTable stats={character.stats}/>}
         </div>
       ))}
