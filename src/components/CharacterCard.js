@@ -1,4 +1,5 @@
 import React from 'react';
+import "./CharacterCard.css";
 
 export default function CustomizedTables(input) {
 
@@ -8,8 +9,11 @@ export default function CustomizedTables(input) {
     var source = "https://www." + input.input.emblem;
 
     return (
-     <div>
+     <div class = "container">
          <img src={source} alt ="Emblem"/>
+    <div class = "destiny-class">{input.input.destinyClass}</div>
+    <div class = "destiny-light">{input.input.light}</div>
+    <div class = "destiny-race-gender">{input.input.destinyRace + " " + input.input.destinyGender}</div>
      </div>
     );
   }

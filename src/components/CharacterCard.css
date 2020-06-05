@@ -1,0 +1,33 @@
+.container {
+    position: relative;
+    text-align: left;
+    color: white;
+}
+
+.destiny-class {
+    position: absolute;
+    top: 4px;
+    left: 108px;
+    color: white;
+    font-weight: 400;
+    font-size: 24px;
+}
+
+.destiny-light {
+    position: absolute;
+    top: 0px;
+    left: 400px;
+    color: #fceb03;
+    font-weight: bold;
+    text-shadow: 0px 2px #6e6e6e;
+    font-size: 36px;
+}
+
+.destiny-race-gender {
+    position: absolute;
+    top: 38px;
+    left: 108px;
+    color: white;
+    font-size: 18px;
+    opacity: 0.5;
+}
