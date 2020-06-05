@@ -33,10 +33,6 @@ export default function Home() {
   }
 
   return (<div className="Home">
-    {
-      isAuthenticated
-        ? renderStats()
-        : renderLander()
-    }
+    {renderStats()}
   </div>);
 }
