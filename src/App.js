@@ -9,6 +9,7 @@ import { onError } from "./libs/errorLib";
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from './theme'
+import { Box } from "@material-ui/core";
 
 function App() {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
@@ -44,7 +45,7 @@ function App() {
     !isAuthenticating &&
     <ThemeProvider theme={theme}>
       <CssBaseline />
-    <div className="App container">
+    <Box className="App container" mt={1}>
       <Navbar fluid collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
@@ -73,7 +74,7 @@ function App() {
       >
         <Routes />
       </AppContext.Provider>
-    </div>
+    </Box>
     </ThemeProvider>
   );
 }
