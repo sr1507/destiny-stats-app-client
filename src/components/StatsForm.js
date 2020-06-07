@@ -1,51 +1,36 @@
 import React, { useState } from "react";
 import { API } from "aws-amplify";
-import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import LoaderButton from "./LoaderButton";
-import StatsTable from "./StatsTable";
-import CharacterCard from "./CharacterCard"
-import { useFormFields } from "../libs/hooksLib";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "./StatsForm.css";
+import SearchCriteria from "./SearchCriteria.js";
+import SearchResults from "./SearchResults.js";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import moment from "moment";
+import CircularProgress from "./CircularProgress";
 
-
-export default function StatsForm({ isLoading, onSubmit, ...props }) {
-  const [fields, handleFieldChange] = useFormFields({ name: "" });
-  const [isProcessing, setIsProcessing] = useState(false);
+export default function StatsForm() {
+  
+  const [displayName, setDisplayName] = useState("");
+  const [startDate, setStartDate] = useState(moment().subtract(1, "months"));
+  const [isLoading, setIsLoading] = useState(false);
   const [statistics, setStatistics] = useState(null);
-  const [startDate, setStartDate] = useState(new Date());
 
-  isLoading = isProcessing || isLoading;
+  async function getStatsFromAPI() {
+    console.log("displayName=" + displayName);
+    console.log("startDate=" + startDate.format("DD/MM/yyyy"));
 
-  function validateForm() {
-    return fields.name.length > 0 && fields.name.length <= 100;
-  }
-
-  function handleDateChange(date) {
-    setStartDate(date);
-  }
-
-  async function handleSubmitClick(event) {
-    event.preventDefault();
-
-    setIsProcessing(true);
+    setIsLoading(true);
 
     const searchParams = {
-      // OPTIONAL
       queryStringParameters: {
-        // OPTIONAL
         membershipType: "2",
-        displayName: fields.name,
+        displayName: displayName,
       },
     };
 
     await API.get("stats", "/search", searchParams)
       .then((searchResponse) => {
         const statsParams = {
-          // OPTIONAL
           queryStringParameters: {
-            // OPTIONAL
             membershipType: "2",
             membershipId: searchResponse[0].membershipId,
             startDate: startDate.toISOString(),
@@ -53,6 +38,7 @@ export default function StatsForm({ isLoading, onSubmit, ...props }) {
         };
         API.get("stats", "/get", statsParams)
           .then((response) => {
+            console.log(response);
             setStatistics(response);
           })
           .catch((e) => {
@@ -60,37 +46,28 @@ export default function StatsForm({ isLoading, onSubmit, ...props }) {
             setStatistics("");
           })
           .then(() => {
-            setIsProcessing(false);
-            isLoading = false;
+            setIsLoading(false);
           });
-      }).catch((e) => {
+      })
+      .catch((e) => {
         console.error(e.message);
-        setIsProcessing(false);
-        isLoading = false;
+        setIsLoading(false);
       });
-    }
+  }
 
   return (
-    <form className="BillingForm" onSubmit={handleSubmitClick}>
-      <FormGroup bsSize="large" controlId="name">
-        <ControlLabel>PSN/Gamertag</ControlLabel>
-        <FormControl type="text" value={fields.name} onChange={handleFieldChange} placeholder="PSN/Gamertag" />
-        <ControlLabel>Date of earliest game used</ControlLabel>
-      </FormGroup>
-      <DatePicker dateFormat = "dd/MM/yyyy" selected={startDate} onChange={handleDateChange} />
-      <LoaderButton block="true" type="submit" bsSize="large" isLoading={isProcessing} disabled={!validateForm()}>
-        Submit
-      </LoaderButton>
-      <div>
-      {statistics && <StatsTable stats={statistics.stats}/>}
-      </div>
-      {statistics && statistics.characters.map(character => (
-        <div>
-          {character.destinyClass}
-          {<CharacterCard input={character}/>}
-          {<StatsTable stats={character.stats}/>}
-        </div>
-      ))}
-    </form>
+    <Grid container justify="center" direction="column" alignItems="center" spacing={4}>
+      <Grid item xs={12}>
+        <Paper>
+          <SearchCriteria setDisplayName={setDisplayName} setStartDate={setStartDate} onSubmit={getStatsFromAPI} />
+        </Paper>
+      </Grid>
+      <Grid item xs={3}>
+        {isLoading && <CircularProgress />}
+      </Grid>
+      <Grid item xs={12}>
+        <Paper>{statistics && <SearchResults statistics={statistics} />}</Paper>
+      </Grid>
+    </Grid>
   );
 }

@@ -6,8 +6,9 @@ import { AppContext } from "./libs/contextLib";
 import Routes from "./Routes";
 import { Auth } from "aws-amplify";
 import { onError } from "./libs/errorLib";
-import "./App.css";
-
+import { ThemeProvider } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import theme from './theme'
 
 function App() {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
@@ -41,6 +42,8 @@ function App() {
 
   return (
     !isAuthenticating &&
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
     <div className="App container">
       <Navbar fluid collapseOnSelect>
         <Navbar.Header>
@@ -71,6 +74,7 @@ function App() {
         <Routes />
       </AppContext.Provider>
     </div>
+    </ThemeProvider>
   );
 }
 
