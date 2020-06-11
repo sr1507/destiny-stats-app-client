@@ -28,6 +28,7 @@ export default function StatsForm() {
   }
 
   async function getStatsFromAPI() {
+    setStatistics(null);
     setIsLoading(true);
 
     const searchParams = {
