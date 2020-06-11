@@ -6,6 +6,7 @@ import LoaderButton from "../components/LoaderButton";
 import {useAppContext} from "../libs/contextLib";
 import {useFormFields} from "../libs/hooksLib";
 import "./Login.css";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const history = useHistory();
@@ -43,6 +44,7 @@ export default function Login() {
         <ControlLabel>Password</ControlLabel>
         <FormControl type="password" value={fields.password} onChange={handleFieldChange}/>
       </FormGroup>
+      <Link to="/login/reset">Forgot password?</Link>
       <LoaderButton block="block" type="submit" bsSize="large" isLoading={isLoading} disabled={!validateForm()}>
         Login
       </LoaderButton>
