@@ -45,7 +45,6 @@ export default function StatsForm() {
           setOpenSnackbar(true);
           setIsLoading(false);
         } else {
-          console.log(searchResponse);
           const statsParams = {
             queryStringParameters: {
               membershipType: "2",
