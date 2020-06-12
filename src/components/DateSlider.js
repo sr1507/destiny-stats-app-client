@@ -57,7 +57,7 @@ export default function DateSlider({ handleDateChange }) {
           Date Range
         </Typography>
       </Box>
-      <Box width={300}>
+      <Box width={210}>
         <Slider
           width="10%"
           value={value}
