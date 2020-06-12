@@ -16,11 +16,12 @@
 .destiny-light {
     position: absolute;
     top: 0px;
-    right: 164px;
+    left: 380px;
     color: #fceb03;
     font-weight: bold;
     text-shadow: 0px 2px #6e6e6e;
     font-size: 36px;
+    text-align: right;
 }
 
 .destiny-race-gender {

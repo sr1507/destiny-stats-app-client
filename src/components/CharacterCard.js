@@ -13,7 +13,7 @@ export default function CustomizedTables(input) {
       <div class="card-container">
         <img src={source} alt="Emblem" />
         <div class="destiny-class">{input.input.destinyClass}</div>
-        <div class="destiny-light">{input.input.light}</div>
+        <Box justify="right" class="destiny-light">{input.input.light}</Box>
         <div class="destiny-race-gender">{input.input.destinyRace + " " + input.input.destinyGender}</div>
       </div>
     </Box>
