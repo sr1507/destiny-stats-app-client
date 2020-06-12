@@ -40,7 +40,7 @@ export default function StatsForm() {
 
     await API.get("stats", "/search", searchParams)
       .then((searchResponse) => {
-        if (searchResponse.length == 0) {
+        if (searchResponse.length === 0) {
           setErrorMessage("Player not found");
           setOpenSnackbar(true);
           setIsLoading(false);
